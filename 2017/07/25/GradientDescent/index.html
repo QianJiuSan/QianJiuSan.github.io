@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="如上一篇博客所述，目前在网易公开课上学习。此篇主要记录的是 michine learning 的学习过程之中的第一课”GradientDescent”(梯度下降)。由于视频是英语授课，且配套的讲义也是英文的，所以语言是很大的阻碍。(查字典不宜啊)，也在本来抽象的知识上又加了难度 :&amp;lt; ，好在能百度到大触们的总结和转述，也甚是欣慰。 Machine Learning机械学习，是模拟人类学习的行">
+<meta name="keywords" content="MachineLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradient Descent">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/GradientDescent/index.html">
+<meta property="og:site_name" content="XunQiu&#39;s Blog">
+<meta property="og:description" content="如上一篇博客所述，目前在网易公开课上学习。此篇主要记录的是 michine learning 的学习过程之中的第一课”GradientDescent”(梯度下降)。由于视频是英语授课，且配套的讲义也是英文的，所以语言是很大的阻碍。(查字典不宜啊)，也在本来抽象的知识上又加了难度 :&amp;lt; ，好在能百度到大触们的总结和转述，也甚是欣慰。 Machine Learning机械学习，是模拟人类学习的行">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/001.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/002.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/003.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/004.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/005.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/006.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/007.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/008.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/009.png">
+<meta property="og:updated_time" content="2017-07-25T12:55:20.423Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradient Descent">
+<meta name="twitter:description" content="如上一篇博客所述，目前在网易公开课上学习。此篇主要记录的是 michine learning 的学习过程之中的第一课”GradientDescent”(梯度下降)。由于视频是英语授课，且配套的讲义也是英文的，所以语言是很大的阻碍。(查字典不宜啊)，也在本来抽象的知识上又加了难度 :&amp;lt; ，好在能百度到大触们的总结和转述，也甚是欣慰。 Machine Learning机械学习，是模拟人类学习的行">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/25/GradientDescent/001.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Gradient Descent</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/07/18/hello-world/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/07/25/GradientDescent/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/07/25/GradientDescent/&text=Gradient Descent"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/07/25/GradientDescent/&is_video=false&description=Gradient Descent"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gradient Descent&body=Check out this article: http://yoursite.com/2017/07/25/GradientDescent/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/07/25/GradientDescent/&name=Gradient Descent&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Gradient Descent
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">XunQiu's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-07-25T08:34:33.000Z" itemprop="datePublished">2017-07-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/MachineLearning/">MachineLearning</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>如上一篇博客所述，目前在网易公开课上学习。此篇主要记录的是 <em>michine learning</em> 的学习过程之中的第一课”GradientDescent”(梯度下降)。由于视频是英语授课，且配套的讲义也是英文的，所以语言是很大的阻碍。(查字典不宜啊)，也在本来抽象的知识上又加了难度 :&lt; ，好在能百度到大触们的总结和转述，也甚是欣慰。</p>
+<h1 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h1><p>机械学习，是模拟人类学习的行为，需要大量的训练数据(training set)，在这些数据中的不断模拟(模拟的进行过程，则是机械学习的算法<learning algorithm="">),得到一套处理问题的手段(函数 h(x) )，进而能对一个行为(未知量 x )进行预测( h(x) )得出结果( y )的能力。<br><img src="/2017/07/25/GradientDescent/001.png" alt="001"></learning></p>
+<h1 id="Batch-Gradient-Descent-批梯度下降算法"><a href="#Batch-Gradient-Descent-批梯度下降算法" class="headerlink" title="Batch Gradient Descent(批梯度下降算法)"></a>Batch Gradient Descent(批梯度下降算法)</h1><h2 id="Linear-Regression-线性回归"><a href="#Linear-Regression-线性回归" class="headerlink" title="Linear Regression(线性回归)"></a>Linear Regression(线性回归)</h2><blockquote>
+<p>To approximate y as a linear function of x :<br>    hθ(x)=θ₀ + θ₁<em>x₁ + θ₂</em>x₂</p>
+</blockquote>
+<p>令 x₀=1,则有：<br><img src="/2017/07/25/GradientDescent/002.png" alt="002"><br>设一个函数 j(θ)，令：<br><img src="/2017/07/25/GradientDescent/003.png" alt="003"><br>为每当有一对新数据对加入计算，则需迭代更新θ的值，即：<br><img src="/2017/07/25/GradientDescent/004.png" alt="004"><br>运用预测的结果(h(x))与已知结果(y)做最小均方(lms)，所得的 j(θ) 则是计算值与真实值之间的误差。为使 j(θ) 得最小值，则对 j(θ) 求导且值为0，即：<br><img src="/2017/07/25/GradientDescent/005.png" alt="005"><br>所以有，单个特征值x的θ迭代公式，如下：<br><img src="/2017/07/25/GradientDescent/006.png" alt="006"><br>此处的 <em>a</em> 为迭代的步长，若 <em>a</em> 过小，则找到函数的最小值速度慢； <em>a</em> 过大，则超过函数的最小值的现象，导致模拟不准确。<br>若有多个特征值x，则θ的迭代公式，如下：<br><img src="/2017/07/25/GradientDescent/007.png" alt="007"></p>
+<h1 id="Stochastic-Gradient-Descent-随机梯度下降算法"><a href="#Stochastic-Gradient-Descent-随机梯度下降算法" class="headerlink" title="Stochastic Gradient Descent(随机梯度下降算法)"></a>Stochastic Gradient Descent(随机梯度下降算法)</h1><p>由上述的 <em>批梯度下降算法</em> 的 θ 迭代公式可以看出：每当有一对新的数据对加入计算，j(θ) 必须从 0 开始迭代，即每次需要对所有的数据进行新一轮的计算，以做到全局最优。如果，数据总量为 n，则该算法的计算时间为 O = n! (好像是)。<br>所以如果当数据量特别庞大时，批梯度下降算法则不适用，则引入 <em>随机梯度下降算法</em> 。即，它每次迭代只考虑让每个样本点的 j(θ)最小，而不管其他的样本点。<br><img src="/2017/07/25/GradientDescent/008.png" alt="008"><br>即：将所有样本点所求得的 j(θ)中，选取下一个 j(θ) 点做拟合。则最坏情况下，该算法的计算时间为 O = n。<br><img src="/2017/07/25/GradientDescent/009.png" alt="009"><br>但SGD的噪点会影响最优解。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p> <a href="http://cs229.stanford.edu/materials.html" target="_blank" rel="external">斯坦福-机械学习.讲义</a><br> <a href="http://www.cnblogs.com/rcfeng/p/3958926.html" target="_blank" rel="external">NO.1大触的博客</a><br> <a href="http://blog.csdn.net/lilyth_lilyth/article/details/8973972" target="_blank" rel="external">NO.2大触的博客</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/07/25/GradientDescent/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/07/25/GradientDescent/&text=Gradient Descent"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/07/25/GradientDescent/&is_video=false&description=Gradient Descent"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Gradient Descent&body=Check out this article: http://yoursite.com/2017/07/25/GradientDescent/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/07/25/GradientDescent/&title=Gradient Descent"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/07/25/GradientDescent/&name=Gradient Descent&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 XunQiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
