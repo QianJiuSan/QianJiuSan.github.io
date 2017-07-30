@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/012.png">
 <meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/014.png">
 <meta property="og:image" content="http://yoursite.com/2017/07/25/GradientDescent/017.png">
-<meta property="og:updated_time" content="2017-07-27T05:05:47.352Z">
+<meta property="og:updated_time" content="2017-07-30T05:20:26.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradient Descent">
 <meta name="twitter:description" content="如上一篇博客所述，目前在网易公开课上学习。此篇主要记录的是 michine learning 的学习过程之中的第一课”GradientDescent”(梯度下降)。由于视频是英语授课，且配套的讲义也是英文的，所以语言是很大的阻碍。(查字典不宜啊)，也在本来抽象的知识上又加了难度 :&amp;lt; ，好在能百度到大触们的总结和转述，也甚是欣慰。 Machine Learning机械学习，是模拟人类学习的行">
@@ -112,7 +112,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix-Derivatives-矩阵求导"><span class="toc-number">3.1.</span> <span class="toc-text">Matrix Derivatives(矩阵求导)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix-Derivatives-矩阵求导"><span class="toc-number">3.1.</span> <span class="toc-text">Matrix Derivatives(矩阵求导)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Last-Two-Sentences-瞎哔哔，勿信"><span class="toc-number">4.</span> <span class="toc-text">Last Two Sentences(瞎哔哔，勿信)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -166,6 +166,12 @@
 <li>④：将x与x的置换看作一个参数C，则可转换为：tr[θI(单位矩阵)θ(的置换)A];则可以运用第三条运算规则化简；</li>
 <li>⑤：运用第一条运算规则化简；</li>
 </ul>
+<h1 id="Last-Two-Sentences-瞎哔哔，勿信"><a href="#Last-Two-Sentences-瞎哔哔，勿信" class="headerlink" title="Last Two Sentences(瞎哔哔，勿信)"></a>Last Two Sentences(瞎哔哔，勿信)</h1><ol>
+<li>这几堆公式到底在讲什么？</li>
+<li>Batch 和 stochastic 的区别？</li>
+<li>怎么拟合出直线的？确定直线的点是什么？</li>
+</ol>
+<p>Stochastic，是将数据集的分布以 <em>点对点</em> 的拟合，即每次加入一对新点，h(x)则表示为一个 <em>未知量为θ</em>，且 <em>斜率为x</em>，截距为前面所有对应的 <em>x与θ积之和</em>；相当于 <em>上一次拟合结果的为基底</em>，加上此时的第n个θ和第n个x之积(而对于Batch而言，需要对所有的数据对进行，按照上一h(x)做出的拟合值与每一个实际值做差，重新计算j(θ))，由于基底越来越大，所以θ逐渐减小。<br>而后用此时的h(x)与实际值y做差，所得数即为 <em>拟合值</em> 与 <em>实际值</em> 之间的误差，且由于θ未知，该式则用j(θ)表示；要使误差最小，则表示求j(θ)的 <em>最小值</em>，即对j(θ)求导，且值为0；<br>关于拟合直线，S是用上一个拟合点与此时计算的h(x)拟合出一条直线；B则是重头计算，确定一条直线的斜率与截距；</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p> <a href="http://cs229.stanford.edu/materials.html" target="_blank" rel="external">斯坦福-机械学习.讲义</a><br> 感谢Ryan！<br> <a href="http://www.cnblogs.com/rcfeng/p/3958926.html" target="_blank" rel="external">Ryan的博客</a></p>
 
   </div>
@@ -193,7 +199,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix-Derivatives-矩阵求导"><span class="toc-number">3.1.</span> <span class="toc-text">Matrix Derivatives(矩阵求导)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Machine-Learning"><span class="toc-number">1.</span> <span class="toc-text">Machine Learning</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Batch-Gradient-Descent-批梯度下降算法"><span class="toc-number">2.</span> <span class="toc-text">Batch Gradient Descent(批梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Regression-线性回归"><span class="toc-number">2.1.</span> <span class="toc-text">Linear Regression(线性回归)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stochastic-Gradient-Descent-随机梯度下降算法"><span class="toc-number">3.</span> <span class="toc-text">Stochastic Gradient Descent(随机梯度下降算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix-Derivatives-矩阵求导"><span class="toc-number">3.1.</span> <span class="toc-text">Matrix Derivatives(矩阵求导)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Last-Two-Sentences-瞎哔哔，勿信"><span class="toc-number">4.</span> <span class="toc-text">Last Two Sentences(瞎哔哔，勿信)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
