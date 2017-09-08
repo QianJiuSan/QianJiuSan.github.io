@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Linear Regression  To make our housing example more interesting, let’s consider a slightly richer dataset in which we also know the number of bedrooms in each house:来，我们把每间房屋里有几间卧室也考虑进我们的数据集里，丰富了数据集也使">
+<meta name="keywords" content="MachineLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearRegression">
+<meta property="og:url" content="http://yoursite.com/2017/09/06/LinearRegression/index.html">
+<meta property="og:site_name" content="XunQiu&#39;s Blog">
+<meta property="og:description" content="Linear Regression  To make our housing example more interesting, let’s consider a slightly richer dataset in which we also know the number of bedrooms in each house:来，我们把每间房屋里有几间卧室也考虑进我们的数据集里，丰富了数据集也使">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/001.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/002.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/003.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/004.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/005.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/006.png">
+<meta property="og:image" content="http://yoursite.com/2017/09/06/LinearRegression/GradientDescent/007.png">
+<meta property="og:updated_time" content="2017-09-08T14:13:24.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LinearRegression">
+<meta name="twitter:description" content="Linear Regression  To make our housing example more interesting, let’s consider a slightly richer dataset in which we also know the number of bedrooms in each house:来，我们把每间房屋里有几间卧室也考虑进我们的数据集里，丰富了数据集也使">
+<meta name="twitter:image" content="http://yoursite.com/2017/09/06/LinearRegression/001.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>LinearRegression</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/08/27/SupervisedLearning/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/06/LinearRegression/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/06/LinearRegression/&text=LinearRegression"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/06/LinearRegression/&is_video=false&description=LinearRegression"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LinearRegression&body=Check out this article: http://yoursite.com/2017/09/06/LinearRegression/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/06/LinearRegression/&name=LinearRegression&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linear-Regression"><span class="toc-number">1.</span> <span class="toc-text">Linear Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LMS-algorithm"><span class="toc-number">1.1.</span> <span class="toc-text">LMS algorithm</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生词"><span class="toc-number">2.</span> <span class="toc-text">生词</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        LinearRegression
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">XunQiu's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-09-06T13:57:54.000Z" itemprop="datePublished">2017-09-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/MachineLearning/">MachineLearning</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h1><p>  To make our housing example more interesting, let’s <em>consider</em> a slightly richer dataset in which we also know the number of bedrooms in each house:<br>来，我们把每间房屋里有几间卧室也考虑进我们的数据集里，丰富了数据集也使它变得有趣了：<br><img src="/2017/09/06/LinearRegression/001.png" width="200" heiight="75"><br>  Here, the x’s are two-<em>dimensional</em> vectors in R^2. For <em>instance</em>, x[1] [i] is the living area of the i-th house in the training set, and x[2] [i] is its number of bedrooms.(In genera,when designing a learning problem, it will be up to you to decide what <em>features</em> to choose, so if you are out in Portland <em>gathering</em> housing data, you might also decide to include other features such as whether each house has a firepalce, the number of bathrooms, and so on. We’ll say more about feature slection later, but for now let’s take the features as given.)<br>在我们的例子里，x是一个表示二维参数的实数。x[1] [i]表示在训练集中第i栋房屋的居住面积数据，x[2] [i]则表示具有卧室的数量。(一般来说，当计划一个学习问题时，一切由你决定选择什么样的特征量，所以如果你在Portland采集数据，你可能也会决定要一些其他的特征量，如：每栋房屋有无防火地带，有几间卫生间等等。往后将讨论如何选择特征量，但现在我们就看如题的特征量)<br>  To <em>perform</em> supervised learning, we must decide how we’re going to represent functions/hypothese h in a computer. As an initial choice, let’s say we decide to <em>approximate</em> y as a linear function of x。<br>为执行监督学习，我们必须确定我们将要在计算机上描绘的函数/假说。于一个最初的选择，我们决定用一条关于 x 的线性函数与 y 做近似计算。<br>  Here, the θ[i]’s are the parameters(also called weeights) parameterizing the space of linear functions mapping from X to Y.When there is no risk of confusion, we will drop the θ subscript in hθ(x), and write it more simply as h(x). To simplify our notation , we also introduce the convention of letting x[0]=1 (this is the <em>intercept</em> term),<br>在这里，θ[i]是线性函数寻找与Y有对应关系的X一些参数(也叫权值)。如果这里没有混淆的情况，我们将扔掉θ在hθ(x)里的上标，然后简化为如下的h(x)。简化我们的符号，我们要采用这样的约定，使x[0]=1 (这是拦截部分)，<br><img src="/2017/09/06/LinearRegression/GradientDescent/002.png" width="200" heiight="75"><br>so that where on the right-hand side above we are viewing θ and x both as vectors, and here n is the number of input variables(not counting x[0]).<br>所以这等式右边，θ 和 x 都是作为参数出现的，n 是具有输入数据的个数(不是x[0])<br>  Now, given a training set, how do we pick, or learn, the parameters θ? One reasonable <em>method</em> seems to be to make h(x) close to y, at least for the training examples we have. To formalize this, we will define a function that measures, for each value of the θ’s, how close the h(x[i])’s are to the <em>corresponding</em> y[i]’s. We define the cost function:<br>现在，得到一组训练集，我们怎么挑选或者说的习得一个较好的参数 θ？一个有逻辑的方法是说，用手中的训练集让每个预算的 h(x) 都去逼近 y。为明确的表示它，我们定义一个意义明确的函数，关于 θ 的每个值，以及 h(x[i]) 和 y[i] 近似值。我们定义 cost function(直译：消耗函数)为：<br><img src="/2017/09/06/LinearRegression/GradientDescent/003.png" width="200" heiight="75"><br>If you’ve seen linear regression before, you may recognize this as the familiar least-squares cost function that gives rise to the <em>ordinary</em> least squares regression model. Whether or not you have seen it <em>previously</em>, let’s keep going, and we’ll eventually show this to be a special case of a much broader family of <em>algorithms</em>.<br>如果之前看过线性回归，你可能会想 cost function 像是普通的最小二乘法模型的加强版。不管是否先前看过，我们继续，最终我们将展示以这个为原型更广泛的一族演算法。</p>
+<h2 id="LMS-algorithm"><a href="#LMS-algorithm" class="headerlink" title="LMS algorithm"></a>LMS algorithm</h2><p>  We want to choose θ so as to minimize J(θ). To do so, let’s use a search algorithm that starts with some “initial guess” for θ, and that <em>repeatedly</em> changes θ to make J(θ) smaller, until hopefully we <em>converge</em> to a value of θ that minimizes J(θ). Specifically, let’s consider the <em>gradient</em> descent algorithm, which starts with some initial θ, and repeatedly performs the update:<br>我们想要选择一个 θ 使 J(θ) 最小。所以我们先假定有一个 θ 的值，然后开始反复地找合适的 θ，使 J(θ) 变小，直到有一个 θ 的值使 J(θ) 收敛与一个最小值。特别是，当我们考虑梯度下降算法时，它要在一个具有初始值的 θ 上，进行反复的迭代升级：<br><img src="/2017/09/06/LinearRegression/GradientDescent/004.png" width="200" heiight="75"><br>(This update is <em>simultaneously</em> performed for all values of j=0,…,n.) Here, α is called the learning <em>rate</em>. This is a very natural algorithm that repeatedly takes a step in the <em>direction</em> of steepest <em>decrease</em> of J.<br>(这种迭代是与 j 的所有值一起迭代的)这里，α 称为学习比例。这是一个原始的算法，它反复地逐一地使 J 有减小的趋势。<br>  In order to <em>implement</em> this algorithm, we have to work out what is the <em>partial</em> <em>derivative</em> term on the right hand side. Let’s first work it out for the case of if we have only one training example (x,y), so that we can <em>neglect</em> the sum in the definition of J. We have:<br>为实现这个算法，我们必须搞清楚右侧不完全导数。让我们先假设只有一个训练例(x,y)，这样我们能忽视定义 J 时的和。可得：<br><img src="/2017/09/06/LinearRegression/GradientDescent/005.png" width="200" heiight="75"><br>  For a single training example, this gives the update rule:<br>以一个单变量的训练例子为例，它的迭代法则如下<br><img src="/2017/09/06/LinearRegression/GradientDescent/006.png" width="200" heiight="75"><br>The rule is called the LMS update rule(LMS stands for “least mean <em>squares</em>“), and is also known as the <em>Widrow-Hoff</em> learning rule. This rule has several properties that seem natural and <em>intuitive</em>. For instance, the <em>magnitude</em> of the update is <em>proportional</em> to the error term(y[i]-h[θ] (x[i])); thus, for instance, if we are <em>encountering</em> a training example on which our prediction nearly matches the actual value of y[i], then we find that there is little need to change the parameters; in <em>contrast</em>, a larger change to the parameters will be made if our prediction h[θ] (x[i]) has a large error(i.e., if it is very far from y[i]).<br>这条规则叫做LMS升级算法 (LMS 是“最小均方法”的缩写)，也被称为 “Widrow-Hoff” 算法。这条算法有一系列明确的性质。例如，(y[i]-h[θ] (x[i]))的每次的误差大小的比例；再如，在我们的训练集里我们的预测值接近于对应的实际值 y[i],然后我们发现只要改变我们的参数；关于比例，如果预测值h[θ] (x[i])有过大的误差，那么比例会很大。(预测值与 y[i] 相距很多)<br>  We’d derived the LMS rule for when there was only a single training example. There are two ways to <em>modify</em> this method for a training set of more than one example. The first is replace it with the following algorithm:<br>当只有一个单参数的训练集时，我们导出了LMS算法。我们有两种方法改进这个算法，去适应多个参数的训练集。第一个跟进算法重现了它：<br><img src="/2017/09/06/LinearRegression/GradientDescent/007.png" width="200" heiight="75"><br>The reader can easily <em>verify</em> that the <em>quantity</em> in the <em>summation</em> in the update rule above is just dJ(θ)/dθ[j] (for the original definition of J). So, this is simply gradient descent on the original cost function J. This method looks at every example in the <em>entire</em> training set on every step, and is called <em>batch gradient descent</em>. Note that, while gradient descent can be <em>susceptile</em> to local minima in general, the <em>optimization</em> problem we have posed here for linear regression has only one global, and no other local, optima; thus gradient descent always converges(assuming the learning rate α is not too large) to the global minimum. Indeed, J is a <em>convex</em> <em>quadratic</em> function. Here is an example of gradient descent as it is run to minimize a quadratic function.<br>读者能简单的预测出多个升级中 dJ(θ)/dθ[j] 和 (从原始对 J 的定义里得出)。所以，这是对于原始“消耗函数” J 的简单的梯度下降。这个算法扫描每个数例，每一步都查看训练集，这叫 <em>批梯度下降</em>。记于如此，在通常的时候梯度下降接近最小值是易受影响的，我们举出的线性回归的最优化解是只有一个解，没有其他周遭的优化解；梯度下降收敛(假定学习步伐 α 不大)于这个最小目标值。J 是一个凸出的二次方程。这个梯度下降的例子是追集二次方程的最小值。</p>
+<h1 id="生词"><a href="#生词" class="headerlink" title="生词"></a>生词</h1><ol>
+<li>consider：<em>vt</em>.考虑；认为；<em>vi</em>.考虑；细想</li>
+<li>dimensional：<em>adj</em>.[数]因次的</li>
+<li>instance：<em>n</em>.例子，实例</li>
+<li>features：<em>n</em>.特征</li>
+<li>gather：<em>vt</em>.收集；收割；使…聚集；使…皱起；<em>vi</em>.聚集；化脓；皱起</li>
+<li>perform：<em>vt</em>.执行；完成；演奏；<em>vi</em>.执行，机器运转；表演</li>
+<li>approximate：<em>vt</em>.近似；使…接近；<em>vi</em>.接近于；<em>adj</em>.[数]近似的；大概的</li>
+<li>intercept：<em>vt</em>.拦截；截断；窃听；<em>n</em>.拦截；[数]截距</li>
+<li>method：<em>n</em>.方法</li>
+<li>correspond：<em>vi</em>.符合，一致；相应</li>
+<li>ordinary：<em>adj</em>.普通的</li>
+<li>previously：<em>adv</em>.先前地</li>
+<li>algorithm: <em>n</em>.演算法</li>
+<li>repeatedly：<em>adv</em>. 反复地</li>
+<li>converge：<em>vt</em>.使汇聚；<em>vi</em>.靠拢；收敛</li>
+<li>gradient：<em>n</em>.[数] [物]梯度，坡度；<em>adj</em>.倾斜的；步行的</li>
+<li>simultaneously：<em>adv</em>.同时地</li>
+<li>rate: <em>n</em>.比例</li>
+<li>direction: <em>n</em>.趋势；方向；指导；用法说明</li>
+<li>decrease: <em>vt</em>.变小；减少；<em>n</em>.减小；缩短</li>
+<li>implement: <em>vt</em>.实施，执行；实现；<em>n</em>.工具；手段</li>
+<li>partial: <em>adj</em>.不完全的</li>
+<li>derivative: <em>n</em>.[数]导数</li>
+<li>neglect: <em>vt</em>.疏忽，忽视；忽略；<em>n</em>.忽视；怠慢</li>
+<li>square：<em>adj</em>.平方的；正方形的；直角的；正直的；<em>vt</em>.使成方形；与…一致；<em>vi</em>.一致；成方形；<em>n</em>.平方；广场；正方形</li>
+<li>intuitive：<em>adj</em>.直觉的；凭直觉获知的</li>
+<li>magnitude: <em>n</em>.大小；量级；[地震]震级</li>
+<li>proportional: <em>adj</em>.比例的，成比例的；相称的，均衡的</li>
+<li>encounter: <em>v</em>.遭遇，邂逅；遇到;<em>n</em>.遭遇，偶尔碰见</li>
+<li>contrast: <em>vi</em>.对比；形成对照;<em>vt</em>.使对比；使与…对照;<em>n</em>.对比；差别；对照物</li>
+<li>modify: <em>vt</em>.修改，修饰；更改;<em>vi</em>.修改</li>
+<li>verify: <em>vt</em>.核实；查证</li>
+<li>quantity: <em>n</em>.量，数量；大量；总量</li>
+<li>summation: <em>n</em>.和；[生理]总和；合计</li>
+<li>entire: <em>adj</em>.全部的，整个的</li>
+<li>susceptile: <em>adj</em>.易受影响的</li>
+<li>optimization: <em>n</em>.最优化，最佳化</li>
+<li>convex: <em>n</em>.凸面</li>
+<li>quadratic: <em>n</em>.[数]二次方程</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linear-Regression"><span class="toc-number">1.</span> <span class="toc-text">Linear Regression</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LMS-algorithm"><span class="toc-number">1.1.</span> <span class="toc-text">LMS algorithm</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生词"><span class="toc-number">2.</span> <span class="toc-text">生词</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/06/LinearRegression/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/06/LinearRegression/&text=LinearRegression"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/06/LinearRegression/&is_video=false&description=LinearRegression"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LinearRegression&body=Check out this article: http://yoursite.com/2017/09/06/LinearRegression/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/06/LinearRegression/&title=LinearRegression"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/06/LinearRegression/&name=LinearRegression&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 XunQiu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/qianjiusan">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
